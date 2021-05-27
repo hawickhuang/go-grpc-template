@@ -1,0 +1,20 @@
+language: go
+
+go:
+  - 1.15.x
+env:
+  - GO111MODULE=on
+
+services:
+  - docker
+
+before_script:
+  - go version
+  - echo $CI_BUILD_REF
+  - echo $CI_PROJECT_DIR
+  - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
+  - ln -s $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
+  - cd $GOPATH/src/$REPO_NAME
+
+script:
+  - make

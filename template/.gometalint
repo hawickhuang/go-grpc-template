@@ -1,0 +1,6 @@
+{
+    "Disable": ["gocyclo", "vetshadow", "gotype"],
+    "Vendor": true,
+    "Exclude": ["should have comment"],
+    "Skip": ["api", "test"]
+}

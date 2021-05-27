@@ -1,0 +1,50 @@
+image: golang:1.15.12
+
+variables:
+  # Please edit to your GitLab project
+  REPO_NAME: {{RepoBase}}/{{RepoGroup}}/{{Name}}
+
+# The problem is that to be able to use go get, one needs to put
+# the repository in the $GOPATH. So for example if your gitlab domain
+# is gitlab.com, and that your repository is namespace/project, and
+# the default GOPATH being /go, then you'd need to have your
+# repository in /go/src/gitlab.com/namespace/project
+# Thus, making a symbolic link corrects this.
+before_script:
+  - go version
+  - echo $CI_BUILD_REF
+  - echo $CI_PROJECT_DIR
+  - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
+  - ln -s $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
+  - cd $GOPATH/src/$REPO_NAME
+
+stages:
+  - lint
+  - test
+  - build
+
+lint:
+  stage: lint
+  script:
+    - pwd
+    - make lint
+
+compile:
+  stage: build
+  script:
+    - make
+
+build image:
+  only:
+    - tags
+  stage: image
+  script:
+    - make
+    - wget -q https://download.docker.com/linux/static/stable/x86_64/docker-20.10.6.tgz
+    - tar --extract --file docker-20.10.6.tgz --strip-components 1 --directory /usr/local/bin/
+    - rm -f docker-20.10.6.tgz
+    - docker version
+    - echo $DOCKER_IMAGE
+    - docker login -u $CI_JOB_USER -p $CI_JOB_TOKEN
+    - docker build -t $DOCKER_IMAGE .
+    - docker push $DOCKER_IMAGE

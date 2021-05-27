@@ -1,0 +1,24 @@
+run:
+    build-tags:
+        - nolic
+
+    tests: true
+
+    skip-dirs:
+        - api
+        - test
+
+    linters:
+        presets:
+            - bugs
+            - unused
+            - format
+            - style
+        disable:
+            - unparam
+        disable:
+            - gochecknoglobals
+            - gochecknoinits
+            - gocritic
+            - lll
+            - unparam

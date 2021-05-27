@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+import "protoc-gen-swagger/options/annotations.proto";
+
+option go_package="{{RepoBase}}/{{RepoGroup}}/{{Name}}/api";
+option java_package="com.{{RepoGroup}}.{{ProtoPackageName}}";
+package github.{{RepoGroup}}.{{ProtoPackageName}};
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+    info: {
+        title: "{{Name}}"
+        version: "v0.1.0"
+    }
+};
+
+

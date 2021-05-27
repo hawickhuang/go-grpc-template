@@ -1,0 +1,8 @@
+{
+    "RepoBase": "github.com",
+    "RepoGroup": "hawickhuang",
+    "Name": "example-go-grpc-project",
+    "Author": "Hawick Huang",
+    "Email": "hawick.huang@gmail.com",
+    "ProtoPackageName": "api"
+}
